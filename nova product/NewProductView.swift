@@ -20,6 +20,7 @@ struct NewProductView: View {
     @State private var amount = 0
     @State private var buyPrice = 0.0
     @State private var sellPrice = 0.0
+    @State private var offerPrice = 0.0
     @State private var specification = ""
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var productImage: Data?
@@ -117,19 +118,29 @@ struct NewProductView: View {
                         }
                         
                         // Prices (Required)
-                        HStack(spacing: 20) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Buy Price * (Toman)")
-                                    .font(.headline)
-                                TextField("Buy Price", value: $buyPrice, format: .number)
-                                    .textFieldStyle(.roundedBorder)
-                                    .keyboardType(.decimalPad)
+                        VStack(spacing: 16) {
+                            HStack(spacing: 20) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Buy Price * (Toman)")
+                                        .font(.headline)
+                                    TextField("Buy Price", value: $buyPrice, format: .number)
+                                        .textFieldStyle(.roundedBorder)
+                                        .keyboardType(.decimalPad)
+                                }
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Sell Price * (Toman)")
+                                        .font(.headline)
+                                    TextField("Sell Price", value: $sellPrice, format: .number)
+                                        .textFieldStyle(.roundedBorder)
+                                        .keyboardType(.decimalPad)
+                                }
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Sell Price * (Toman)")
+                                Text("Offer Price (Toman)")
                                     .font(.headline)
-                                TextField("Sell Price", value: $sellPrice, format: .number)
+                                TextField("Offer Price", value: $offerPrice, format: .number)
                                     .textFieldStyle(.roundedBorder)
                                     .keyboardType(.decimalPad)
                             }
@@ -216,6 +227,7 @@ struct NewProductView: View {
             amount: amount,
             buyPrice: buyPrice,
             sellPrice: sellPrice,
+            offerPrice: offerPrice,
             specification: specification
         )
         

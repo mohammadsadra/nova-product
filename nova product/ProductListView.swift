@@ -106,10 +106,19 @@ struct ProductRowView: View {
                     
                     Spacer()
                     
-                    Text("\(product.sellPrice, specifier: "%.0f") Toman")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.green)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text("\(product.sellPrice, specifier: "%.0f") Toman")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.green)
+                        
+                        if product.offerPrice > 0 {
+                            Text("Offer: \(product.offerPrice, specifier: "%.0f") Toman")
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(.orange)
+                        }
+                    }
                 }
             }
             

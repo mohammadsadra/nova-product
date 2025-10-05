@@ -29,6 +29,7 @@ struct ProductDetailView: View {
             amount: product.amount,
             buyPrice: product.buyPrice,
             sellPrice: product.sellPrice,
+            offerPrice: product.offerPrice,
             specification: product.specification,
             image: product.image
         ))
@@ -136,32 +137,48 @@ struct ProductDetailView: View {
                         }
                         
                         // Prices
-                        HStack(spacing: 20) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Buy Price")
-                                    .font(.headline)
-                                if isEditing {
-                                    TextField("Buy Price", value: $editedProduct.buyPrice, format: .number)
-                                        .textFieldStyle(.roundedBorder)
-                                        .keyboardType(.decimalPad)
-                                } else {
-                                    Text("\(product.buyPrice, specifier: "%.0f") Toman")
-                                        .font(.title3)
-                                        .foregroundColor(.blue)
+                        VStack(spacing: 16) {
+                            HStack(spacing: 20) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Buy Price")
+                                        .font(.headline)
+                                    if isEditing {
+                                        TextField("Buy Price", value: $editedProduct.buyPrice, format: .number)
+                                            .textFieldStyle(.roundedBorder)
+                                            .keyboardType(.decimalPad)
+                                    } else {
+                                        Text("\(product.buyPrice, specifier: "%.0f") Toman")
+                                            .font(.title3)
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Sell Price")
+                                        .font(.headline)
+                                    if isEditing {
+                                        TextField("Sell Price", value: $editedProduct.sellPrice, format: .number)
+                                            .textFieldStyle(.roundedBorder)
+                                            .keyboardType(.decimalPad)
+                                    } else {
+                                        Text("\(product.sellPrice, specifier: "%.0f") Toman")
+                                            .font(.title3)
+                                            .foregroundColor(.green)
+                                    }
                                 }
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Sell Price")
+                                Text("Offer Price")
                                     .font(.headline)
                                 if isEditing {
-                                    TextField("Sell Price", value: $editedProduct.sellPrice, format: .number)
+                                    TextField("Offer Price", value: $editedProduct.offerPrice, format: .number)
                                         .textFieldStyle(.roundedBorder)
                                         .keyboardType(.decimalPad)
                                 } else {
-                                    Text("\(product.sellPrice, specifier: "%.0f") Toman")
+                                    Text("\(product.offerPrice, specifier: "%.0f") Toman")
                                         .font(.title3)
-                                        .foregroundColor(.green)
+                                        .foregroundColor(.orange)
                                 }
                             }
                         }
@@ -232,6 +249,7 @@ struct ProductDetailView: View {
             amount: product.amount,
             buyPrice: product.buyPrice,
             sellPrice: product.sellPrice,
+            offerPrice: product.offerPrice,
             specification: product.specification,
             image: product.image
         )
@@ -243,6 +261,7 @@ struct ProductDetailView: View {
         product.amount = editedProduct.amount
         product.buyPrice = editedProduct.buyPrice
         product.sellPrice = editedProduct.sellPrice
+        product.offerPrice = editedProduct.offerPrice
         product.specification = editedProduct.specification
         product.image = editedProduct.image
         
@@ -256,12 +275,13 @@ struct ProductData {
     var amount: Int
     var buyPrice: Double
     var sellPrice: Double
+    var offerPrice: Double
     var specification: String
     var image: Data?
 }
 
 #Preview {
-    let product = Product(name: "Sample Product", barcode: "123456789", amount: 10, buyPrice: 5.0, sellPrice: 10.0, specification: "Sample specification")
+    let product = Product(name: "Sample Product", barcode: "123456789", amount: 10, buyPrice: 5.0, sellPrice: 10.0, offerPrice: 8.0, specification: "Sample specification")
     ProductDetailView(product: product)
         .modelContainer(for: Product.self, inMemory: true)
 }
