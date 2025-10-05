@@ -40,295 +40,505 @@ struct ProductDetailView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // Hero Section with Product Image
-                    VStack(spacing: 20) {
-                        // Product Image with modern styling
+                    VStack(spacing: 24) {
+                        // Product Image with enhanced styling
                         ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(.systemGray6))
-                                .frame(height: 280)
-                                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                            RoundedRectangle(cornerRadius: 24)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(.systemGray6), Color(.systemGray5)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(height: 320)
+                                .shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: 10)
                             
                             if let imageData = editedProduct.image,
                                let uiImage = UIImage(data: imageData) {
                                 Image(uiImage: uiImage)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(height: 280)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .frame(height: 320)
+                                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 24)
+                                            .stroke(Color.white.opacity(0.2), lineWidth: 2)
+                                    )
                             } else {
-                                VStack(spacing: 16) {
-                                    Image(systemName: "photo")
-                                        .font(.system(size: 60))
-                                        .foregroundColor(.gray.opacity(0.6))
+                                VStack(spacing: 20) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.white.opacity(0.3))
+                                            .frame(width: 100, height: 100)
+                                        Image(systemName: "photo")
+                                            .font(.system(size: 50, weight: .light))
+                                            .foregroundColor(.white.opacity(0.8))
+                                    }
                                     Text("No Image")
-                                        .font(.headline)
-                                        .foregroundColor(.gray)
+                                        .font(.title2)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.white.opacity(0.9))
                                 }
                             }
                         }
                         
-                        // Image editing controls
+                        // Image editing controls with enhanced styling
                         if isEditing {
-                            HStack(spacing: 16) {
-                                Button(action: { showingCamera = true }) {
-                                    HStack(spacing: 8) {
-                                        Image(systemName: "camera")
-                                        Text("Camera")
-                                    }
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
-                                    .background(Color.blue)
-                                    .cornerRadius(25)
-                                }
+                            VStack(spacing: 16) {
+                                Text("Update Product Image")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
                                 
-                                PhotosPicker(selection: $selectedPhoto, matching: .images) {
-                                    HStack(spacing: 8) {
-                                        Image(systemName: "photo.on.rectangle")
-                                        Text("Gallery")
-                                    }
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
-                                    .background(Color.green)
-                                    .cornerRadius(25)
-                                }
-                                .onChange(of: selectedPhoto) { _, newValue in
-                                    Task {
-                                        if let data = try? await newValue?.loadTransferable(type: Data.self) {
-                                            editedProduct.image = data
-                                        }
-                                    }
-                                }
-                                
-                                if editedProduct.image != nil {
-                                    Button(action: { editedProduct.image = nil }) {
+                                HStack(spacing: 12) {
+                                    Button(action: { showingCamera = true }) {
                                         HStack(spacing: 8) {
-                                            Image(systemName: "trash")
-                                            Text("Remove")
+                                            Image(systemName: "camera.fill")
+                                            Text("Camera")
                                         }
                                         .foregroundColor(.white)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 12)
-                                        .background(Color.red)
-                                        .cornerRadius(25)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .padding(.horizontal, 24)
+                                        .padding(.vertical, 14)
+                                        .background(
+                                            LinearGradient(
+                                                colors: [Color.blue, Color.blue.opacity(0.8)],
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                        .cornerRadius(30)
+                                        .shadow(color: .blue.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    }
+                                    
+                                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                                        HStack(spacing: 8) {
+                                            Image(systemName: "photo.on.rectangle.fill")
+                                            Text("Gallery")
+                                        }
+                                        .foregroundColor(.white)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .padding(.horizontal, 24)
+                                        .padding(.vertical, 14)
+                                        .background(
+                                            LinearGradient(
+                                                colors: [Color.green, Color.green.opacity(0.8)],
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                        .cornerRadius(30)
+                                        .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    }
+                                    .onChange(of: selectedPhoto) { _, newValue in
+                                        Task {
+                                            if let data = try? await newValue?.loadTransferable(type: Data.self) {
+                                                editedProduct.image = data
+                                            }
+                                        }
+                                    }
+                                    
+                                    if editedProduct.image != nil {
+                                        Button(action: { editedProduct.image = nil }) {
+                                            HStack(spacing: 8) {
+                                                Image(systemName: "trash.fill")
+                                                Text("Remove")
+                                            }
+                                            .foregroundColor(.white)
+                                            .font(.subheadline)
+                                            .fontWeight(.medium)
+                                            .padding(.horizontal, 24)
+                                            .padding(.vertical, 14)
+                                            .background(
+                                                LinearGradient(
+                                                    colors: [Color.red, Color.red.opacity(0.8)],
+                                                    startPoint: .top,
+                                                    endPoint: .bottom
+                                                )
+                                            )
+                                            .cornerRadius(30)
+                                            .shadow(color: .red.opacity(0.3), radius: 8, x: 0, y: 4)
+                                        }
                                     }
                                 }
                             }
+                            .padding(20)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color(.systemBackground))
+                                    .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
+                            )
                         }
                     }
                     
                     // Product Information Cards
                     VStack(spacing: 20) {
-                        // Basic Info Card
-                        VStack(alignment: .leading, spacing: 16) {
+                        // Basic Info Card with enhanced styling
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Image(systemName: "info.circle.fill")
-                                    .foregroundColor(.blue)
-                                Text("Product Information")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.blue.opacity(0.1))
+                                        .frame(width: 40, height: 40)
+                                    Image(systemName: "info.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .font(.title2)
+                                }
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Product Information")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("Basic product details")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                                 Spacer()
                             }
                             
-                            VStack(spacing: 16) {
-                                // Name
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Product Name")
-                                        .font(.headline)
-                                        .foregroundColor(.secondary)
+                            VStack(spacing: 20) {
+                                // Name with enhanced styling
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Image(systemName: "tag.fill")
+                                            .foregroundColor(.blue)
+                                            .font(.caption)
+                                        Text("Product Name")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondary)
+                                    }
                                     if isEditing {
                                         TextField("Product Name", text: $editedProduct.name)
                                             .textFieldStyle(.roundedBorder)
+                                            .font(.body)
                                     } else {
                                         Text(product.name)
                                             .font(.title3)
                                             .fontWeight(.semibold)
+                                            .foregroundColor(.primary)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
+                                .padding(16)
+                                .background(Color.blue.opacity(0.05))
+                                .cornerRadius(12)
                                 
-                                // Barcode
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Barcode")
-                                        .font(.headline)
-                                        .foregroundColor(.secondary)
+                                // Barcode with enhanced styling
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Image(systemName: "barcode")
+                                            .foregroundColor(.blue)
+                                            .font(.caption)
+                                        Text("Barcode")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondary)
+                                    }
                                     if isEditing {
                                         TextField("Barcode", text: $editedProduct.barcode)
                                             .textFieldStyle(.roundedBorder)
+                                            .font(.body)
                                     } else {
                                         Text(product.barcode)
                                             .font(.title3)
                                             .fontWeight(.medium)
                                             .foregroundColor(.blue)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
+                                .padding(16)
+                                .background(Color.blue.opacity(0.05))
+                                .cornerRadius(12)
                                 
-                                // Amount
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Stock Amount")
-                                        .font(.headline)
-                                        .foregroundColor(.secondary)
+                                // Amount with enhanced styling
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Image(systemName: "cube.box.fill")
+                                            .foregroundColor(.blue)
+                                            .font(.caption)
+                                        Text("Stock Amount")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondary)
+                                    }
                                     if isEditing {
                                         TextField("Amount", value: $editedProduct.amount, format: .number)
                                             .textFieldStyle(.roundedBorder)
                                             .keyboardType(.numberPad)
+                                            .font(.body)
                                     } else {
                                         HStack {
-                                            Text("\(product.amount)")
+                                            Text("\(product.amount) units")
                                                 .font(.title3)
                                                 .fontWeight(.semibold)
+                                                .foregroundColor(.primary)
                                             Spacer()
                                             if product.amount > 0 {
-                                                Text("In Stock")
-                                                    .font(.caption)
-                                                    .padding(.horizontal, 8)
-                                                    .padding(.vertical, 4)
-                                                    .background(Color.green.opacity(0.2))
-                                                    .foregroundColor(.green)
-                                                    .cornerRadius(8)
+                                                HStack(spacing: 6) {
+                                                    Circle()
+                                                        .fill(Color.green)
+                                                        .frame(width: 8, height: 8)
+                                                    Text("In Stock")
+                                                        .font(.caption)
+                                                        .fontWeight(.medium)
+                                                        .padding(.horizontal, 12)
+                                                        .padding(.vertical, 6)
+                                                        .background(Color.green.opacity(0.15))
+                                                        .foregroundColor(.green)
+                                                        .cornerRadius(12)
+                                                }
                                             } else {
-                                                Text("Out of Stock")
-                                                    .font(.caption)
-                                                    .padding(.horizontal, 8)
-                                                    .padding(.vertical, 4)
-                                                    .background(Color.red.opacity(0.2))
-                                                    .foregroundColor(.red)
-                                                    .cornerRadius(8)
+                                                HStack(spacing: 6) {
+                                                    Circle()
+                                                        .fill(Color.red)
+                                                        .frame(width: 8, height: 8)
+                                                    Text("Out of Stock")
+                                                        .font(.caption)
+                                                        .fontWeight(.medium)
+                                                        .padding(.horizontal, 12)
+                                                        .padding(.vertical, 6)
+                                                        .background(Color.red.opacity(0.15))
+                                                        .foregroundColor(.red)
+                                                        .cornerRadius(12)
+                                                }
                                             }
                                         }
                                     }
                                 }
+                                .padding(16)
+                                .background(Color.blue.opacity(0.05))
+                                .cornerRadius(12)
                             }
                         }
-                        .padding(20)
-                        .background(Color(.systemBackground))
-                        .cornerRadius(16)
-                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        .padding(24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: .black.opacity(0.08), radius: 15, x: 0, y: 8)
+                        )
                         
-                        // Pricing Card
-                        VStack(alignment: .leading, spacing: 16) {
+                        // Pricing Card with enhanced styling
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Image(systemName: "dollarsign.circle.fill")
-                                    .foregroundColor(.green)
-                                Text("Pricing Information")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.green.opacity(0.1))
+                                        .frame(width: 40, height: 40)
+                                    Image(systemName: "dollarsign.circle.fill")
+                                        .foregroundColor(.green)
+                                        .font(.title2)
+                                }
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Pricing Information")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("Cost and selling prices")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                                 Spacer()
                             }
                             
                             VStack(spacing: 16) {
-                                // Buy Price
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Buy Price")
-                                            .font(.headline)
-                                            .foregroundColor(.secondary)
-                                        if isEditing {
-                                            TextField("Buy Price", value: $editedProduct.buyPrice, format: .number)
-                                                .textFieldStyle(.roundedBorder)
-                                                .keyboardType(.decimalPad)
-                                        } else {
-                                            Text("\(product.buyPrice, specifier: "%.0f") Toman")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                    Spacer()
-                                    Image(systemName: "arrow.down.circle.fill")
-                                        .foregroundColor(.blue)
-                                        .font(.title2)
-                                }
-                                .padding(16)
-                                .background(Color.blue.opacity(0.1))
-                                .cornerRadius(12)
-                                
-                                // Sell Price
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Sell Price")
-                                            .font(.headline)
-                                            .foregroundColor(.secondary)
-                                        if isEditing {
-                                            TextField("Sell Price", value: $editedProduct.sellPrice, format: .number)
-                                                .textFieldStyle(.roundedBorder)
-                                                .keyboardType(.decimalPad)
-                                        } else {
-                                            Text("\(product.sellPrice, specifier: "%.0f") Toman")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(.green)
-                                        }
-                                    }
-                                    Spacer()
-                                    Image(systemName: "arrow.up.circle.fill")
-                                        .foregroundColor(.green)
-                                        .font(.title2)
-                                }
-                                .padding(16)
-                                .background(Color.green.opacity(0.1))
-                                .cornerRadius(12)
-                                
-                                // Offer Price (if set)
-                                if product.offerPrice > 0 || isEditing {
+                                // Buy Price with enhanced styling
+                                VStack(alignment: .leading, spacing: 12) {
                                     HStack {
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Offer Price")
-                                                .font(.headline)
+                                        Image(systemName: "arrow.down.circle.fill")
+                                            .foregroundColor(.blue)
+                                            .font(.caption)
+                                        Text("Buy Price")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    if isEditing {
+                                        TextField("Buy Price", value: $editedProduct.buyPrice, format: .number)
+                                            .textFieldStyle(.roundedBorder)
+                                            .keyboardType(.decimalPad)
+                                            .font(.body)
+                                    } else {
+                                        HStack {
+                                            Text("\(product.buyPrice, specifier: "%.0f")")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.blue)
+                                            Text("Toman")
+                                                .font(.subheadline)
                                                 .foregroundColor(.secondary)
-                                            if isEditing {
-                                                TextField("Offer Price", value: $editedProduct.offerPrice, format: .number)
-                                                    .textFieldStyle(.roundedBorder)
-                                                    .keyboardType(.decimalPad)
-                                            } else {
-                                                Text("\(product.offerPrice, specifier: "%.0f") Toman")
-                                                    .font(.title3)
-                                                    .fontWeight(.semibold)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                .padding(16)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.blue.opacity(0.08), Color.blue.opacity(0.03)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                                )
+                                
+                                // Sell Price with enhanced styling
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Image(systemName: "arrow.up.circle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.caption)
+                                        Text("Sell Price")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    if isEditing {
+                                        TextField("Sell Price", value: $editedProduct.sellPrice, format: .number)
+                                            .textFieldStyle(.roundedBorder)
+                                            .keyboardType(.decimalPad)
+                                            .font(.body)
+                                    } else {
+                                        HStack {
+                                            Text("\(product.sellPrice, specifier: "%.0f")")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.green)
+                                            Text("Toman")
+                                                .font(.subheadline)
+                                                .foregroundColor(.secondary)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                .padding(16)
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.green.opacity(0.08), Color.green.opacity(0.03)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.green.opacity(0.2), lineWidth: 1)
+                                )
+                                
+                                // Offer Price with enhanced styling
+                                if product.offerPrice > 0 || isEditing {
+                                    VStack(alignment: .leading, spacing: 12) {
+                                        HStack {
+                                            Image(systemName: "tag.circle.fill")
+                                                .foregroundColor(.orange)
+                                                .font(.caption)
+                                            Text("Offer Price")
+                                                .font(.subheadline)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(.secondary)
+                                        }
+                                        if isEditing {
+                                            TextField("Offer Price", value: $editedProduct.offerPrice, format: .number)
+                                                .textFieldStyle(.roundedBorder)
+                                                .keyboardType(.decimalPad)
+                                                .font(.body)
+                                        } else {
+                                            HStack {
+                                                Text("\(product.offerPrice, specifier: "%.0f")")
+                                                    .font(.title2)
+                                                    .fontWeight(.bold)
                                                     .foregroundColor(.orange)
+                                                Text("Toman")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.secondary)
+                                                Spacer()
                                             }
                                         }
-                                        Spacer()
-                                        Image(systemName: "tag.circle.fill")
-                                            .foregroundColor(.orange)
-                                            .font(.title2)
                                     }
                                     .padding(16)
-                                    .background(Color.orange.opacity(0.1))
+                                    .background(
+                                        LinearGradient(
+                                            colors: [Color.orange.opacity(0.08), Color.orange.opacity(0.03)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
                                     .cornerRadius(12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.orange.opacity(0.2), lineWidth: 1)
+                                    )
                                 }
                             }
                         }
-                        .padding(20)
-                        .background(Color(.systemBackground))
-                        .cornerRadius(16)
-                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        .padding(24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: .black.opacity(0.08), radius: 15, x: 0, y: 8)
+                        )
                         
-                        // Specification Card
-                        VStack(alignment: .leading, spacing: 16) {
+                        // Specification Card with enhanced styling
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Image(systemName: "doc.text.fill")
-                                    .foregroundColor(.purple)
-                                Text("Specification")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.purple.opacity(0.1))
+                                        .frame(width: 40, height: 40)
+                                    Image(systemName: "doc.text.fill")
+                                        .foregroundColor(.purple)
+                                        .font(.title2)
+                                }
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Specification")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    Text("Product details and notes")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
                                 Spacer()
                             }
                             
-                            if isEditing {
-                                TextField("Specification", text: $editedProduct.specification, axis: .vertical)
-                                    .textFieldStyle(.roundedBorder)
-                                    .lineLimit(3...6)
-                            } else {
-                                Text(product.specification.isEmpty ? "No specification provided" : product.specification)
-                                    .font(.body)
-                                    .foregroundColor(product.specification.isEmpty ? .secondary : .primary)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 12) {
+                                HStack {
+                                    Image(systemName: "note.text")
+                                        .foregroundColor(.purple)
+                                        .font(.caption)
+                                    Text("Description")
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                if isEditing {
+                                    TextField("Specification", text: $editedProduct.specification, axis: .vertical)
+                                        .textFieldStyle(.roundedBorder)
+                                        .lineLimit(3...6)
+                                        .font(.body)
+                                } else {
+                                    Text(product.specification.isEmpty ? "No specification provided" : product.specification)
+                                        .font(.body)
+                                        .foregroundColor(product.specification.isEmpty ? .secondary : .primary)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(16)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(product.specification.isEmpty ? Color(.systemGray6) : Color.purple.opacity(0.05))
+                                        )
+                                }
                             }
                         }
-                        .padding(20)
-                        .background(Color(.systemBackground))
-                        .cornerRadius(16)
-                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        .padding(24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(.systemBackground))
+                                .shadow(color: .black.opacity(0.08), radius: 15, x: 0, y: 8)
+                        )
                     }
                 }
                 .padding()
