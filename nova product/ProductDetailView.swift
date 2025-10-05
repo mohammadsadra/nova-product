@@ -38,9 +38,9 @@ struct ProductDetailView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 32) {
                     // Hero Section with Product Image
-                    VStack(spacing: 24) {
+                    VStack(spacing: 32) {
                         // Product Image with enhanced styling
                         ZStack {
                             RoundedRectangle(cornerRadius: 24)
@@ -85,13 +85,13 @@ struct ProductDetailView: View {
                         
                         // Image editing controls with enhanced styling
                         if isEditing {
-                            VStack(spacing: 16) {
+                            VStack(spacing: 20) {
                                 Text("Update Product Image")
                                     .font(.headline)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.primary)
                                 
-                                HStack(spacing: 12) {
+                                HStack(spacing: 16) {
                                     Button(action: { showingCamera = true }) {
                                         HStack(spacing: 8) {
                                             Image(systemName: "camera.fill")
@@ -165,29 +165,30 @@ struct ProductDetailView: View {
                                     }
                                 }
                             }
-                            .padding(20)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 20)
                             .background(
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color(.systemBackground))
-                                    .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
+                                    .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 6)
                             )
                         }
                     }
                     
                     // Product Information Cards
-                    VStack(spacing: 20) {
+                    VStack(spacing: 24) {
                         // Basic Info Card with enhanced styling
-                        VStack(alignment: .leading, spacing: 20) {
-                            HStack {
+                        VStack(alignment: .leading, spacing: 24) {
+                            HStack(spacing: 16) {
                                 ZStack {
                                     Circle()
                                         .fill(Color.blue.opacity(0.1))
-                                        .frame(width: 40, height: 40)
+                                        .frame(width: 48, height: 48)
                                     Image(systemName: "info.circle.fill")
                                         .foregroundColor(.blue)
                                         .font(.title2)
                                 }
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 6) {
                                     Text("Product Information")
                                         .font(.title2)
                                         .fontWeight(.bold)
@@ -200,8 +201,8 @@ struct ProductDetailView: View {
                             
                             VStack(spacing: 20) {
                                 // Name with enhanced styling
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 8) {
                                         Image(systemName: "tag.fill")
                                             .foregroundColor(.blue)
                                             .font(.caption)
@@ -222,13 +223,14 @@ struct ProductDetailView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 16)
                                 .background(Color.blue.opacity(0.05))
                                 .cornerRadius(12)
                                 
                                 // Barcode with enhanced styling
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 8) {
                                         Image(systemName: "barcode")
                                             .foregroundColor(.blue)
                                             .font(.caption)
@@ -249,13 +251,14 @@ struct ProductDetailView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 16)
                                 .background(Color.blue.opacity(0.05))
                                 .cornerRadius(12)
                                 
                                 // Amount with enhanced styling
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 8) {
                                         Image(systemName: "cube.box.fill")
                                             .foregroundColor(.blue)
                                             .font(.caption)
@@ -308,12 +311,14 @@ struct ProductDetailView: View {
                                         }
                                     }
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 16)
                                 .background(Color.blue.opacity(0.05))
                                 .cornerRadius(12)
                             }
                         }
-                        .padding(24)
+                        .padding(.horizontal, 28)
+                        .padding(.vertical, 24)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(.systemBackground))
@@ -321,17 +326,17 @@ struct ProductDetailView: View {
                         )
                         
                         // Pricing Card with enhanced styling
-                        VStack(alignment: .leading, spacing: 20) {
-                            HStack {
+                        VStack(alignment: .leading, spacing: 24) {
+                            HStack(spacing: 16) {
                                 ZStack {
                                     Circle()
                                         .fill(Color.green.opacity(0.1))
-                                        .frame(width: 40, height: 40)
+                                        .frame(width: 48, height: 48)
                                     Image(systemName: "dollarsign.circle.fill")
                                         .foregroundColor(.green)
                                         .font(.title2)
                                 }
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 6) {
                                     Text("Pricing Information")
                                         .font(.title2)
                                         .fontWeight(.bold)
@@ -342,10 +347,10 @@ struct ProductDetailView: View {
                                 Spacer()
                             }
                             
-                            VStack(spacing: 16) {
+                            VStack(spacing: 20) {
                                 // Buy Price with enhanced styling
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 8) {
                                         Image(systemName: "arrow.down.circle.fill")
                                             .foregroundColor(.blue)
                                             .font(.caption)
@@ -372,7 +377,8 @@ struct ProductDetailView: View {
                                         }
                                     }
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 16)
                                 .background(
                                     LinearGradient(
                                         colors: [Color.blue.opacity(0.08), Color.blue.opacity(0.03)],
@@ -387,8 +393,8 @@ struct ProductDetailView: View {
                                 )
                                 
                                 // Sell Price with enhanced styling
-                                VStack(alignment: .leading, spacing: 12) {
-                                    HStack {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack(spacing: 8) {
                                         Image(systemName: "arrow.up.circle.fill")
                                             .foregroundColor(.green)
                                             .font(.caption)
@@ -415,7 +421,8 @@ struct ProductDetailView: View {
                                         }
                                     }
                                 }
-                                .padding(16)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 16)
                                 .background(
                                     LinearGradient(
                                         colors: [Color.green.opacity(0.08), Color.green.opacity(0.03)],
@@ -431,8 +438,8 @@ struct ProductDetailView: View {
                                 
                                 // Offer Price with enhanced styling
                                 if product.offerPrice > 0 || isEditing {
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        HStack {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        HStack(spacing: 8) {
                                             Image(systemName: "tag.circle.fill")
                                                 .foregroundColor(.orange)
                                                 .font(.caption)
@@ -459,7 +466,8 @@ struct ProductDetailView: View {
                                             }
                                         }
                                     }
-                                    .padding(16)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 16)
                                     .background(
                                         LinearGradient(
                                             colors: [Color.orange.opacity(0.08), Color.orange.opacity(0.03)],
@@ -475,7 +483,8 @@ struct ProductDetailView: View {
                                 }
                             }
                         }
-                        .padding(24)
+                        .padding(.horizontal, 28)
+                        .padding(.vertical, 24)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(.systemBackground))
@@ -483,17 +492,17 @@ struct ProductDetailView: View {
                         )
                         
                         // Specification Card with enhanced styling
-                        VStack(alignment: .leading, spacing: 20) {
-                            HStack {
+                        VStack(alignment: .leading, spacing: 24) {
+                            HStack(spacing: 16) {
                                 ZStack {
                                     Circle()
                                         .fill(Color.purple.opacity(0.1))
-                                        .frame(width: 40, height: 40)
+                                        .frame(width: 48, height: 48)
                                     Image(systemName: "doc.text.fill")
                                         .foregroundColor(.purple)
                                         .font(.title2)
                                 }
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 6) {
                                     Text("Specification")
                                         .font(.title2)
                                         .fontWeight(.bold)
@@ -504,8 +513,8 @@ struct ProductDetailView: View {
                                 Spacer()
                             }
                             
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
+                            VStack(alignment: .leading, spacing: 16) {
+                                HStack(spacing: 8) {
                                     Image(systemName: "note.text")
                                         .foregroundColor(.purple)
                                         .font(.caption)
@@ -533,7 +542,8 @@ struct ProductDetailView: View {
                                 }
                             }
                         }
-                        .padding(24)
+                        .padding(.horizontal, 28)
+                        .padding(.vertical, 24)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(.systemBackground))
@@ -541,7 +551,8 @@ struct ProductDetailView: View {
                         )
                     }
                 }
-                .padding()
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
             .navigationTitle(isEditing ? "Edit Product" : "Product Details")
             .navigationBarTitleDisplayMode(.inline)
