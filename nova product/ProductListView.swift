@@ -12,6 +12,7 @@ struct ProductListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var products: [Product]
     @State private var searchText = ""
+    @State private var showNewProduct = false
     
     var filteredProducts: [Product] {
         if searchText.isEmpty {
@@ -37,9 +38,19 @@ struct ProductListView: View {
             .navigationTitle("Products")
             .searchable(text: $searchText, prompt: "Search products...")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("New Product") {
+                        showNewProduct = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
+            }
+            .sheet(isPresented: $showNewProduct) {
+                NewProductView(barcode: "")
             }
         }
     }
