@@ -32,9 +32,13 @@ struct ProductListView: View {
                     NavigationLink(destination: ProductDetailView(product: product)) {
                         ProductRowView(product: product)
                     }
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 }
                 .onDelete(perform: deleteProducts)
             }
+            .listStyle(PlainListStyle())
             .navigationTitle("Products")
             .searchable(text: $searchText, prompt: "Search products...")
             .toolbar {
@@ -72,50 +76,109 @@ struct ProductRowView: View {
     let product: Product
     
     var body: some View {
-        HStack {
-            if let imageData = product.image,
-               let uiImage = UIImage(data: imageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 60)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-            } else {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 60, height: 60)
-                    .overlay(
+        HStack(spacing: 16) {
+            // Product Image with modern styling
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.systemGray6))
+                    .frame(width: 80, height: 80)
+                
+                if let imageData = product.image,
+                   let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                } else {
+                    VStack(spacing: 4) {
                         Image(systemName: "photo")
+                            .font(.system(size: 24))
+                            .foregroundColor(.gray.opacity(0.6))
+                        Text("No Image")
+                            .font(.caption2)
                             .foregroundColor(.gray)
-                    )
+                    }
+                }
             }
             
-            VStack(alignment: .leading, spacing: 4) {
+            // Product Information
+            VStack(alignment: .leading, spacing: 8) {
+                // Product Name
                 Text(product.name)
                     .font(.headline)
-                    .lineLimit(1)
+                    .fontWeight(.semibold)
+                    .lineLimit(2)
+                    .foregroundColor(.primary)
                 
-                Text("Barcode: \(product.barcode)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                
+                // Barcode
                 HStack {
-                    Text("Amount: \(product.amount)")
+                    Image(systemName: "barcode")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                    Text(product.barcode)
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                        .fontWeight(.medium)
+                }
+                
+                // Stock Status
+                HStack {
+                    Image(systemName: "cube.box")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text("\(product.amount) in stock")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
                     Spacer()
                     
-                    VStack(alignment: .trailing, spacing: 2) {
+                    // Stock Status Badge
+                    if product.amount > 0 {
+                        Text("In Stock")
+                            .font(.caption2)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.green.opacity(0.2))
+                            .foregroundColor(.green)
+                            .cornerRadius(8)
+                    } else {
+                        Text("Out of Stock")
+                            .font(.caption2)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.red.opacity(0.2))
+                            .foregroundColor(.red)
+                            .cornerRadius(8)
+                    }
+                }
+                
+                // Pricing Information
+                VStack(alignment: .leading, spacing: 4) {
+                    // Sell Price
+                    HStack {
+                        Text("Sell Price")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Spacer()
                         Text("\(product.sellPrice, specifier: "%.0f") Toman")
                             .font(.subheadline)
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
                             .foregroundColor(.green)
-                        
-                        if product.offerPrice > 0 {
-                            Text("Offer: \(product.offerPrice, specifier: "%.0f") Toman")
+                    }
+                    
+                    // Offer Price (if available)
+                    if product.offerPrice > 0 {
+                        HStack {
+                            Text("Offer Price")
                                 .font(.caption)
-                                .fontWeight(.medium)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(product.offerPrice, specifier: "%.0f") Toman")
+                                .font(.caption)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.orange)
                         }
                     }
@@ -124,7 +187,10 @@ struct ProductRowView: View {
             
             Spacer()
         }
-        .padding(.vertical, 4)
+        .padding(16)
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
 }
 
