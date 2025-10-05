@@ -70,16 +70,22 @@ struct NewProductView: View {
                                 )
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(spacing: 8) {
                             Button("Camera") {
                                 showingCamera = true
                             }
                             .buttonStyle(.bordered)
+                            .font(.caption)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
                             
                             PhotosPicker(selection: $selectedPhoto, matching: .images) {
                                 Text("Gallery")
-                                    .buttonStyle(.bordered)
                             }
+                            .buttonStyle(.bordered)
+                            .font(.caption)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
                             .onChange(of: selectedPhoto) { _, newValue in
                                 Task {
                                     if let data = try? await newValue?.loadTransferable(type: Data.self) {
@@ -94,6 +100,9 @@ struct NewProductView: View {
                                 }
                                 .buttonStyle(.bordered)
                                 .foregroundColor(.red)
+                                .font(.caption)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
                             }
                         }
                     }
