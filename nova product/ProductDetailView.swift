@@ -336,23 +336,19 @@ struct ProductDetailView: View {
             .navigationTitle(isEditing ? "Edit Product" : "Product Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        if isEditing {
-                            isEditing = false
-                            resetEditedProduct()
-                        } else {
-                            dismiss()
-                        }
-                    }
-                }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if isEditing {
-                        Button("Save") {
-                            saveProduct()
+                        HStack {
+                            Button("Cancel") {
+                                isEditing = false
+                                resetEditedProduct()
+                            }
+                            
+                            Button("Save") {
+                                saveProduct()
+                            }
+                            .fontWeight(.semibold)
                         }
-                        .fontWeight(.semibold)
                     } else {
                         Button("Edit") {
                             isEditing = true
