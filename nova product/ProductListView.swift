@@ -39,8 +39,12 @@ struct ProductListView: View {
             .searchable(text: $searchText, prompt: "Search products...")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("New Product") {
+                    Button(action: {
                         showNewProduct = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.title2)
+                            .fontWeight(.semibold)
                     }
                     .buttonStyle(.borderedProminent)
                 }
